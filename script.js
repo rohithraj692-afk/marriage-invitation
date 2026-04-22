@@ -20,6 +20,7 @@ const showRsvpFormButton = document.getElementById("show-rsvp-form");
 const showDeclineFormButton = document.getElementById("show-decline-form");
 const rsvpDetails = document.getElementById("rsvp-details");
 const contactNameInput = document.getElementById("contact-name");
+const guestSideSelect = document.getElementById("guest-side");
 const rsvpStatusEl = document.getElementById("rsvp-status");
 const rsvpSubmitButton = rsvpForm.querySelector('button[type="submit"]');
 const thankYouScreen = document.getElementById("thank-you-screen");
@@ -58,12 +59,24 @@ function showRsvpStatus(message) {
   rsvpStatusEl.classList.remove("hidden");
 }
 
+function getGuestSideTag(guestSide) {
+  if (guestSide === "പെണ്ണ് വീട്ടുകാർ") {
+    return "G";
+  }
+  if (guestSide === "ചെക്കൻ വീട്ടുകാർ") {
+    return "M";
+  }
+  return "";
+}
+
 async function submitRsvpToWebhook(payload) {
   const formBody = new URLSearchParams({
     submittedAt: payload.submittedAt,
     responseType: payload.responseType,
     contactName: payload.contactName,
     contactPhone: payload.contactPhone,
+    guestSide: payload.guestSide,
+    guestSideTag: payload.guestSideTag,
     peopleCount: String(payload.peopleCount),
     attendeeNames: payload.attendeeNames.join(" | ")
   }).toString();
@@ -165,12 +178,14 @@ rsvpForm.addEventListener("submit", async (event) => {
   const formData = new FormData(rsvpForm);
   const contactName = String(formData.get("contact-name") || "").trim();
   const contactPhone = String(formData.get("contact-phone") || "").trim();
+  const guestSide = String(formData.get("guest-side") || "").trim();
+  const guestSideTag = getGuestSideTag(guestSide);
   const normalizedPhone = normalizePhoneNumber(contactPhone);
   const selectedPeopleCount = Number(formData.get("people-count") || 0);
   const isAttending = rsvpResponseType === "Attending";
   const peopleCount = isAttending ? selectedPeopleCount : 0;
 
-  if (!contactName || !contactPhone || (isAttending && peopleCount <= 0)) {
+  if (!contactName || !contactPhone || !guestSide || !guestSideTag || (isAttending && peopleCount <= 0)) {
     showRsvpStatus(isAttending ? "Please complete all RSVP fields." : "Please complete your details.");
     return;
   }
@@ -203,6 +218,8 @@ rsvpForm.addEventListener("submit", async (event) => {
     responseType: rsvpResponseType,
     contactName,
     contactPhone,
+    guestSide,
+    guestSideTag,
     peopleCount,
     attendeeNames
   };
@@ -219,6 +236,7 @@ rsvpForm.addEventListener("submit", async (event) => {
     await submitRsvpToWebhook(submissionPayload);
     saveSubmittedPhone(normalizedPhone);
     rsvpForm.reset();
+    guestSideSelect.value = "";
     peopleCountSelect.required = true;
     attendeeFields.innerHTML = "";
     attendingFieldsGroup.classList.remove("hidden");
