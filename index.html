@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. Amrutha Ashok Weds Prabin Nandakumar</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;600;700&family=Manjari:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <img class="bg-image" src="assets/HorizontalURL.jpg" alt="" aria-hidden="true" />
+  <div class="background-overlay"></div>
+
+  <section id="entry-screen" class="entry-screen">
+    <div class="entry-card">
+      <p class="entry-theme-title"><span class="entry-theme-malayalam">നാദം</span></p>
+      <p class="entry-top-label">✦ A Melody of Two Souls ✦</p>
+      <div class="entry-names">
+        <span class="entry-name">Dr. Amrutha Ashok</span>
+        <span class="entry-weds">&amp;</span>
+        <span class="entry-name">Prabin Nandakumar</span>
+      </div>
+      <div class="entry-divider"><span>✦</span></div>
+      <button id="open-invitation" class="open-btn" type="button">
+        <span class="open-btn-icon">✉</span>
+        <span>Open Invitation</span>
+      </button>
+    </div>
+  </section>
+
+  <main id="invitation-content" class="invitation-content hidden fade-in" aria-hidden="true">
+    <header class="hero">
+      <p class="label">You Are Invited</p>
+      <p class="details"><strong class="host-line">Mrs. Suma Ashok &amp; Mr. Ashok Kumar</strong><br/><span class="invite-note">Cordially invite you to celebrate this joyous occasion and request the honor of your presence and blessings at the wedding ceremony of their beloved daughter.</span></p>
+      <h1 class="couple-names"><span>Dr. Amrutha Ashok</span><em>Weds</em><span>Prabin Nandakumar</span><small class="couple-subline">S/o Mrs. Usha Nandakumar &amp; Mr. Nandakumar C P</small></h1>
+      <div class="info-cards">
+        <div class="info-stack">
+          <div class="info-card">
+            <div class="info-icon">📅</div>
+            <div class="info-body">
+              <p class="info-label">Wedding Day</p>
+              <p class="info-value">Sunday, 6th December 2026</p>
+              <a class="maps-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Dr.+Amrutha+Ashok+Weds+Prabin+Nandakumar&amp;dates=20261206T090000%2F20261206T220000&amp;ctz=Asia%2FKolkata&amp;details=Join+us+to+celebrate+the+wedding+ceremony.&amp;location=Silvercloud+Private+Resort%2C+Wedding+Banquet+Hall%2C+Chalakkal%2C+Parappur%2C+Kerala+680552" target="_blank" rel="noopener noreferrer">🗓️ Add to Calendar</a>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-icon">⏰</div>
+            <div class="info-body">
+              <p class="info-label">Muhoortham</p>
+              <p class="info-value">9:00 AM to 10:00 AM</p>
+            </div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div class="info-body">
+            <p class="info-label">Venue</p>
+            <p class="info-value">Silvercloud Private Resort</p>
+            <p class="info-sub">Wedding Banquet Hall, Chalakkal,<br/>Parappur, Kerala 680552</p>
+            <a class="maps-link" href="https://www.google.com/maps/search/?api=1&query=Silvercloud+Private+Resort+Wedding+Banquet+Hall+Chalakkal+Parappur+Kerala+680552" target="_blank" rel="noopener noreferrer">📌 Get Directions</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="countdown-section" aria-label="Countdown to wedding day">
+      <h2>Countdown to the Big Day</h2>
+      <div class="countdown-grid">
+        <div class="count-box"><span id="days">0</span><small>Days</small></div>
+        <div class="count-box"><span id="hours">0</span><small>Hours</small></div>
+        <div class="count-box"><span id="minutes">0</span><small>Minutes</small></div>
+        <div class="count-box"><span id="seconds">0</span><small>Seconds</small></div>
+      </div>
+      <p id="countdown-message" class="countdown-message"></p>
+    </section>
+
+    <section class="rsvp-section" aria-label="RSVP form">
+      <h2>Kindly Confirm Your Presence</h2>
+      <p>Please enter your details and the names of all guests attending the function so we can make the necessary arrangements.</p>
+      <div class="rsvp-actions">
+        <button id="show-rsvp-form" type="button" class="primary-btn">I Will/May Be Attending</button>
+        <button id="show-decline-form" type="button" class="secondary-btn">I Won't Be Able to Attend</button>
+      </div>
+
+      <div id="rsvp-details" class="hidden">
+        <form id="rsvp-form">
+          <label for="contact-name">Your Name</label>
+          <input id="contact-name" name="contact-name" type="text" required />
+
+          <label for="contact-phone">Phone Number</label>
+          <input id="contact-phone" name="contact-phone" type="tel" required />
+
+          <div id="attending-fields-group">
+            <label for="people-count">Number of People Attending including yourself</label>
+            <select id="people-count" name="people-count" required>
+              <option value="" selected disabled>Select number</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+            </select>
+
+            <div id="attendee-fields" class="attendee-fields"></div>
+          </div>
+
+          <button type="submit" class="primary-btn">Submit Response</button>
+          <p id="rsvp-status" class="rsvp-status hidden" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+      <footer class="site-footer">
+        <p class="footer-wish">With Warm Wishes &amp; Love &#10084;</p>
+        <p class="footer-names">Chuni Ashok &bull; Rohith Rajeev &bull; Ridhaan Ram</p>
+      </footer>
+
+    </main>
+
+  <section id="thank-you-screen" class="thank-you-screen hidden fade-in" aria-hidden="true">
+    <div class="thank-you-card">
+      <p class="entry-top-label">Thank You</p>
+      <h2 class="thank-you-title">Your Response Has Been Recorded</h2>
+      <p id="thank-you-message" class="thank-you-text">Thank you for your response.</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
