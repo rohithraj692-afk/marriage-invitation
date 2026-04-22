@@ -4,9 +4,8 @@ Simple wedding invitation website for **Amrutha Ashok Weds Prabin Nandakumar** w
 
 - Click to open invitation screen
 - Live countdown to **Dec 6, 2026**
-- RSVP form with attendee count and attendee names
+- RSVP form with side selection, attendee count, and attendee names
 - RSVP submission to Google Sheet via webhook
-- Optional RSVP email draft via `mailto`
 - Full-page background image support
 
 ## Run Locally
@@ -21,15 +20,9 @@ Simple wedding invitation website for **Amrutha Ashok Weds Prabin Nandakumar** w
    const rsvpWebhookUrl = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEBHOOK_URL_HERE";
    ```
 
-2. (Optional) Replace RSVP email address in `script.js`:
+2. Add your background image at:
 
-   ```js
-   const rsvpEmail = "your-email@example.com";
-   ```
-
-3. Add your background image at:
-
-   `assets/wedding-background.jpg`
+   `assets/HorizontalURL.jpg`
 
    (Create the `assets` folder if it does not exist.)
 
@@ -37,7 +30,7 @@ Simple wedding invitation website for **Amrutha Ashok Weds Prabin Nandakumar** w
 
 1. Create a Google Sheet with headers in row 1:
 
-   `Submitted At | Contact Name | Phone Number | Number Attending | Attendee Names`
+   `Submitted At | Not Attending | Attending | Phone Number | Number Attending | Attendee Names | Side Tag`
 
 2. In the sheet, open **Extensions → Apps Script** and paste this code:
 
@@ -45,12 +38,39 @@ Simple wedding invitation website for **Amrutha Ashok Weds Prabin Nandakumar** w
    function doPost(e) {
      const sheet =
        SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Sheet1");
+
+     const submittedAt = e.parameter.submittedAt || "";
+     const responseType = (e.parameter.responseType || "").trim().toLowerCase();
+     const contactName = e.parameter.contactName || "";
+     const contactPhone = e.parameter.contactPhone || "";
+     const peopleCount = e.parameter.peopleCount || "";
+     const attendeeNames = e.parameter.attendeeNames || "";
+
+     const guestSide = (e.parameter.guestSide || "").trim();
+     const incomingGuestSideTag = (e.parameter.guestSideTag || "")
+       .trim()
+       .toUpperCase();
+     const sideTag =
+       incomingGuestSideTag === "G" || incomingGuestSideTag === "M"
+         ? incomingGuestSideTag
+         : guestSide === "പെണ്ണ് വീട്ടുകാർ"
+           ? "G"
+           : guestSide === "ചെക്കൻ വീട്ടുകാർ"
+             ? "M"
+             : "";
+
+     const notAttendingName =
+       responseType === "not attending" ? contactName : "";
+     const attendingName = responseType === "attending" ? contactName : "";
+
      sheet.appendRow([
-       e.parameter.submittedAt || "",
-       e.parameter.contactName || "",
-       e.parameter.contactPhone || "",
-       e.parameter.peopleCount || "",
-       e.parameter.attendeeNames || "",
+       submittedAt,
+       notAttendingName,
+       attendingName,
+       contactPhone,
+       peopleCount,
+       attendeeNames,
+       sideTag,
      ]);
 
      return ContentService.createTextOutput(
