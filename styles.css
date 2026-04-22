@@ -251,6 +251,9 @@ body {
 }
 
 .couple-subline {
+  display: block;
+  text-align: center;
+  width: 100%;
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-muted);
