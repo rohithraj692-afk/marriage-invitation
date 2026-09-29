@@ -48,6 +48,22 @@ function autoSlide() {
   }, 4000); // Change slide every 4 seconds
 }
 
+// Copy to clipboard function for contact numbers
+function copyToClipboard(phoneNumber, elementId) {
+  navigator.clipboard.writeText(phoneNumber).then(() => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      const originalText = element.textContent;
+      element.textContent = "Copied!";
+      setTimeout(() => {
+        element.textContent = originalText;
+      }, 2000);
+    }
+  }).catch(() => {
+    alert("Failed to copy. Please try again.");
+  });
+}
+
 // Initialize slideshow with lazy loading
 function initializeSlideshow() {
   const dotContainer = document.getElementById("dot-container");
@@ -162,6 +178,23 @@ function saveSubmittedPhone(normalizedPhone) {
 
 function normalizePhoneNumber(phoneNumber) {
   return phoneNumber.replace(/[^\d]/g, "");
+}
+
+function copyToClipboard(phoneNumber, elementId) {
+  navigator.clipboard.writeText(phoneNumber).then(() => {
+    const element = document.getElementById(elementId);
+    const originalText = element.textContent;
+    element.textContent = "Copied!";
+    element.style.color = "#10b981";
+    
+    setTimeout(() => {
+      element.textContent = originalText;
+      element.style.color = "var(--accent)";
+    }, 2000);
+  }).catch((err) => {
+    console.error("Failed to copy:", err);
+    alert("Failed to copy phone number");
+  });
 }
 
 function showRsvpStatus(message) {
