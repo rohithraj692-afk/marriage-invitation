@@ -299,6 +299,36 @@ body {
   pointer-events: auto;
 }
 
+.rsvp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.rsvp-header h2 {
+  margin: 0;
+  flex: 1;
+}
+
+.translate-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+  white-space: nowrap;
+}
+
+.translate-btn:hover {
+  background: #92400e;
+}
+
 .back-btn:hover {
   opacity: 0.7;
 }

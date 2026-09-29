@@ -221,6 +221,34 @@ backButton.addEventListener("click", () => {
   playMusic("assets/Songs/classical.mp3");
 });
 
+// Translation functionality
+let isTranslated = false;
+
+const translateBtn = document.getElementById("translate-btn");
+const rsvpTitle = document.getElementById("rsvp-title");
+const rsvpDescription = document.getElementById("rsvp-description");
+const showRsvpBtn = document.getElementById("show-rsvp-form");
+const showDeclineBtn = document.getElementById("show-decline-form");
+
+function toggleTranslation() {
+  isTranslated = !isTranslated;
+  
+  // Update title
+  rsvpTitle.textContent = isTranslated ? rsvpTitle.dataset.ml : rsvpTitle.dataset.en;
+  
+  // Update description
+  rsvpDescription.textContent = isTranslated ? rsvpDescription.dataset.ml : rsvpDescription.dataset.en;
+  
+  // Update buttons
+  showRsvpBtn.textContent = isTranslated ? showRsvpBtn.dataset.ml : showRsvpBtn.dataset.en;
+  showDeclineBtn.textContent = isTranslated ? showDeclineBtn.dataset.ml : showDeclineBtn.dataset.en;
+  
+  // Update translate button text
+  translateBtn.querySelector(".translate-text").textContent = isTranslated ? "English" : "മലയാളം";
+}
+
+translateBtn.addEventListener("click", toggleTranslation);
+
 showRsvpFormButton.addEventListener("click", () => {
   rsvpResponseType = "Attending";
   attendingFieldsGroup.classList.remove("hidden");
