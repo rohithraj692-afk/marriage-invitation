@@ -72,6 +72,36 @@ if (document.readyState === "loading") {
   initializeSlideshow();
 }
 
+// Handle background music
+const backgroundMusic = document.getElementById("background-music");
+let musicStarted = false;
+
+function playMusic(src) {
+  if (backgroundMusic) {
+    backgroundMusic.src = src;
+    backgroundMusic.currentTime = 0;
+    const playPromise = backgroundMusic.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // If autoplay fails, it will play on first user interaction
+      });
+    }
+  }
+}
+
+// Play classical music on first user interaction (browser autoplay policy)
+function initializeMusic() {
+  if (!musicStarted) {
+    musicStarted = true;
+    playMusic("assets/Songs/classical.mp3");
+  }
+}
+
+// Listen for any user interaction to start music
+document.addEventListener("click", initializeMusic, { once: true });
+document.addEventListener("touchstart", initializeMusic, { once: true });
+
 const entryScreen = document.getElementById("entry-screen");
 const invitationContent = document.getElementById("invitation-content");
 const openInvitationButton = document.getElementById("open-invitation");
@@ -167,6 +197,7 @@ openInvitationButton.addEventListener("click", () => {
   invitationContent.classList.remove("hidden");
   invitationContent.setAttribute("aria-hidden", "false");
   backButton.classList.add("show");
+  playMusic("assets/Songs/mangalyam.mp3");
   // restart animation
   invitationContent.style.animation = "none";
   invitationContent.offsetHeight; // reflow
@@ -178,6 +209,7 @@ backButton.addEventListener("click", () => {
   invitationContent.setAttribute("aria-hidden", "true");
   backButton.classList.remove("show");
   entryScreen.classList.remove("hidden");
+  playMusic("assets/Songs/classical.mp3");
 });
 
 showRsvpFormButton.addEventListener("click", () => {
