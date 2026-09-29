@@ -2,9 +2,80 @@ const weddingDate = new Date("2026-12-06T00:00:00+05:30").getTime();
 const rsvpWebhookUrl = "https://script.google.com/macros/s/AKfycbwmtCMyhxOWD5uPTpEjqKhTQMjhOvd2oTcM8G9WMxt7dGA9Lg28IFe8uRnDJLcac-D5og/exec";
 const submittedPhonesStorageKey = "wedding-rsvp-submitted-phones-v1";
 
+// Slideshow functionality
+let slideIndex = 1;
+let slideTimer = null;
+
+function showSlide(n) {
+  const slides = document.getElementsByClassName("slide");
+  const dots = document.getElementsByClassName("dot");
+  
+  if (n > slides.length) {
+    slideIndex = 1;
+  }
+  if (n < 1) {
+    slideIndex = slides.length;
+  }
+  
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].classList.remove("active");
+  }
+  for (let i = 0; i < dots.length; i++) {
+    dots[i].classList.remove("active");
+  }
+  
+  slides[slideIndex - 1].classList.add("active");
+  dots[slideIndex - 1].classList.add("active");
+}
+
+function changeSlide(n) {
+  clearTimeout(slideTimer);
+  showSlide(slideIndex += n);
+  autoSlide();
+}
+
+function currentSlide(n) {
+  clearTimeout(slideTimer);
+  showSlide(slideIndex = n);
+  autoSlide();
+}
+
+function autoSlide() {
+  slideTimer = setTimeout(() => {
+    slideIndex++;
+    showSlide(slideIndex);
+    autoSlide();
+  }, 4000); // Change slide every 4 seconds
+}
+
+// Initialize slideshow
+function initializeSlideshow() {
+  const dotContainer = document.getElementById("dot-container");
+  const slides = document.getElementsByClassName("slide");
+  
+  // Create dot indicators dynamically for each slide
+  for (let i = 0; i < slides.length; i++) {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    dot.setAttribute("onclick", `currentSlide(${i + 1})`);
+    dotContainer.appendChild(dot);
+  }
+  
+  showSlide(slideIndex);
+  autoSlide();
+}
+
+// Wait for DOM to be ready
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeSlideshow);
+} else {
+  initializeSlideshow();
+}
+
 const entryScreen = document.getElementById("entry-screen");
 const invitationContent = document.getElementById("invitation-content");
 const openInvitationButton = document.getElementById("open-invitation");
+const backButton = document.getElementById("back-button");
 
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
@@ -95,10 +166,18 @@ openInvitationButton.addEventListener("click", () => {
   entryScreen.classList.add("hidden");
   invitationContent.classList.remove("hidden");
   invitationContent.setAttribute("aria-hidden", "false");
+  backButton.classList.add("show");
   // restart animation
   invitationContent.style.animation = "none";
   invitationContent.offsetHeight; // reflow
   invitationContent.style.animation = "";
+});
+
+backButton.addEventListener("click", () => {
+  invitationContent.classList.add("hidden");
+  invitationContent.setAttribute("aria-hidden", "true");
+  backButton.classList.remove("show");
+  entryScreen.classList.remove("hidden");
 });
 
 showRsvpFormButton.addEventListener("click", () => {

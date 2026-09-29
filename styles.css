@@ -15,16 +15,11 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-dark);
   position: relative;
+  background: linear-gradient(135deg, #f5deb3 0%, #deb887 100%);
 }
 
 .bg-image {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 30%;
-  z-index: -1;
+  display: none;
 }
 
 .background-overlay {
@@ -47,6 +42,97 @@ body {
   align-items: center;
   justify-content: flex-start;
   padding: 24px;
+  gap: 40px;
+}
+
+/* Slideshow Styles */
+.slideshow-container {
+  position: relative;
+  flex: 1;
+  max-width: 500px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  background: transparent;
+}
+
+.slide {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: auto;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.slide.active {
+  display: block;
+}
+
+.slide.fade {
+  animation: fade 1s ease-in-out;
+}
+
+@keyframes fade {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.3s ease;
+  border-radius: 3px;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+}
+
+.prev {
+  left: 0;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.slide-indicators {
+  position: absolute;
+  bottom: 16px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.dot {
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  margin: 0 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
 .entry-card,
@@ -63,11 +149,11 @@ body {
   max-width: 380px;
   width: 100%;
   text-align: center;
-  background: linear-gradient(160deg, rgba(255,255,255,0.78) 0%, rgba(255,248,240,0.78) 100%), url("assets/NadaImage.jpg") center/cover no-repeat;
+  background: transparent;
   border-radius: 20px;
   padding: 32px 24px 28px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.6);
-  border: 1px solid rgba(180, 83, 9, 0.12);
+  box-shadow: none;
+  border: 2px solid #fff;
   position: relative;
   overflow: hidden;
 }
@@ -137,9 +223,10 @@ body {
 .entry-name {
   font-size: 1.6rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: #fff;
   line-height: 1.1;
   font-family: Georgia, "Times New Roman", serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .entry-weds {
@@ -168,16 +255,17 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 2px solid var(--accent);
+  border: 2px solid #fff;
   border-radius: 50px;
   padding: 12px 26px;
-  background: transparent;
-  color: var(--accent);
+  background: rgba(180, 83, 9, 0.8);
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: background 0.25s, color 0.25s;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .open-btn:hover {
@@ -187,6 +275,35 @@ body {
 
 .open-btn-icon {
   font-size: 18px;
+}
+
+.back-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 0;
+  transition: opacity 0.25s;
+  text-decoration: none;
+  position: fixed;
+  left: 24px;
+  top: 24px;
+  z-index: 100;
+}
+
+.back-btn.show {
+  display: inline-flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.back-btn:hover {
+  opacity: 0.7;
 }
 
 .site-footer {
@@ -536,5 +653,60 @@ select {
 @media (max-width: 640px) {
   .countdown-grid {
     grid-template-columns: repeat(2, minmax(70px, 1fr));
+  }
+
+  /* Mobile optimization - show image at top, push card down */
+  body {
+    background-attachment: scroll;
+    background-position: center top;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  /* Push card below the visible image area */
+  .entry-screen {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 16px;
+    min-height: auto;
+    padding-top: 16px;
+    gap: 20px;
+  }
+
+  .slideshow-container {
+    flex: none;
+    max-width: 100%;
+    width: 100%;
+    height: 500px;
+    margin-bottom: 16px;
+  }
+
+  .entry-card {
+    max-width: 85vw;
+    padding: 20px 16px 16px;
+  }
+
+  .entry-theme-malayalam {
+    font-size: 2.5rem;
+  }
+
+  .entry-name {
+    font-size: 1.2rem;
+  }
+
+  .open-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+
+  .back-btn {
+    left: 16px;
+    top: 16px;
+    font-size: 13px;
+    display: none;
+  }
+
+  .back-btn.show {
+    display: inline-flex;
   }
 }
