@@ -172,7 +172,7 @@
           <input id="contact-name" name="contact-name" type="text" required />
 
           <label for="contact-phone">Phone Number</label>
-          <input id="contact-phone" name="contact-phone" type="tel" required />
+          <input id="contact-phone" name="contact-phone" type="tel" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" />
 
           <label for="guest-side">Your Side</label>
           <select id="guest-side" name="guest-side" required>
