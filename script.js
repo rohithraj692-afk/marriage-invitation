@@ -48,7 +48,7 @@ function autoSlide() {
   }, 4000); // Change slide every 4 seconds
 }
 
-// Initialize slideshow
+// Initialize slideshow with lazy loading
 function initializeSlideshow() {
   const dotContainer = document.getElementById("dot-container");
   const slides = document.getElementsByClassName("slide");
@@ -59,6 +59,15 @@ function initializeSlideshow() {
     dot.className = "dot";
     dot.setAttribute("onclick", `currentSlide(${i + 1})`);
     dotContainer.appendChild(dot);
+  }
+  
+  // Preload first 3 images for better initial performance
+  for (let i = 0; i < Math.min(3, slides.length); i++) {
+    const img = slides[i].querySelector("img");
+    if (img) {
+      const newImg = new Image();
+      newImg.src = img.src;
+    }
   }
   
   showSlide(slideIndex);
